@@ -101,9 +101,7 @@ function func(obj)
 		tempobj=null;
 		kolvo+=2;
 		if(kolvo==64)
-		{
 			setTimeout("alert('Игра окончена!')", 100);
-		}
 		return;
 	}
 	if(tempobj!=null && tempobj.className!=obj.className)
