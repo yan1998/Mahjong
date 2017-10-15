@@ -1,8 +1,14 @@
-var tempobj=null;
-var kolvo=0;
-var images1=new Array();
-var images2=new Array();
+var tempobj=null;//выбранная кость
+var kolvo=0;//количество 
+var images1=new Array();//
+var images2=new Array();//
 
+/*
+	Функция случайным образом заполняет массивы images1 и images2 числами от 1-16.
+	Данные числа - названия соответствующих костей без расширения .jpg.
+	Для того, чтобы избежать повторения имён костей в одном массиве массиве используется массив asmas1 и asmas2.
+	
+*/
 function rand()
 {
 	asmas1=new Array();
@@ -32,6 +38,10 @@ function rand()
 	}
 }
 
+/*
+	Отправная точка, главной задачей которой является расставление костей соответствующим образом.
+	В данном примере каждые пары костей используются дважды. Это позволяет снизить вероятность неразрешимости на минимум.
+*/
 function NewGame()
 {
 	var temp1,temp2;
@@ -76,25 +86,32 @@ function NewGame()
 		document.write("<img class='p"+temp2+"'style='cursor: pointer;border:1px solid black;position:absolute; top:500px; left:"+((i-15)*70+700)+"px;' src='img/"+temp2+".jpg' onclick='func(this)'/><br/><br/>");
 	}
 }
-		
+	
+/*
+	Данная функция - обработчик события click любой кости. Позволяет выделять кости. 
+	Если кость выделить невозможно - клик по кости будет проигнорирован
+	Если дважды кликают по одной и той же кости - выделение отменяется
+	Если обе кости из одного класса -обе кости убираются
+	Если обе кости разные, первая выделенная кость возвращается в исходное состояние, а вторая выделяется
+*/
 function func(obj)
 {
-	if(!images(obj))
+	if(!images(obj))	//если кость нельзя выделить по правилам
 		return;
-	if(tempobj==null)
+	if(tempobj==null)	// если кость не была выделена
 	{
 		obj.style.opacity="0.5";
 		tempobj=obj;
 		return;
 	}	
-	if(obj==tempobj)
+	if(obj==tempobj)	//если выделенная кость и выделяемая кость одна и та же
 	{
 		obj.style.opacity="1";
 		tempobj=null;
 		tempclass=null;
 		return;
 	}
-	if(obj.className==tempobj.className)
+	if(obj.className==tempobj.className)	//если обе кости одинаковые
 	{
 		tempobj.style.display="none"; 
 		obj.style.display="none";
@@ -104,7 +121,7 @@ function func(obj)
 			setTimeout("alert('Игра окончена!')", 100);
 		return;
 	}
-	if(tempobj!=null && tempobj.className!=obj.className)
+	if(tempobj!=null && tempobj.className!=obj.className)	//если обе кости разные
 	{
 		obj.style.opacity="0.5"; 
 		tempobj.style.opacity="1";
@@ -112,7 +129,13 @@ function func(obj)
 		return;
 	}	
 }
-				
+
+/*
+	Проверка возможности выделения кости. 
+	Кость нельзя выделить в том случае, если она находится между двумя костями (её окружают слева и справа),
+	и в случае, если на кости стоит другая кость.
+	
+*/
 function images(obj)
 {
 	m=document.getElementsByTagName("img");
